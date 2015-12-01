@@ -95,28 +95,76 @@ public class Main {
 //    }
 
     public static void main(String[] args) {
+
+        testIsFour();
+        testIsStraight();
+        testIsFlush();
+
         long beginTime = System.currentTimeMillis();
 
         Card aceOfSpades = new Card(Card.Suit.SPADE, Card.Rank.ACE);
         Card twoOfSpades = new Card(Card.Suit.SPADE, Card.Rank.TWO);
         Card threeOfSpades = new Card(Card.Suit.SPADE, Card.Rank.THREE);
-        Card fourOfSpades = new Card(Card.Suit.SPADE, Card.Rank.SIX);
+        Card fourOfSpades = new Card(Card.Suit.SPADE, Card.Rank.FOUR);
         ArrayList<Card> hand = new ArrayList<>();
-        hand.add(aceOfSpades);
-        hand.add(twoOfSpades);
-        hand.add(threeOfSpades);
-        hand.add(fourOfSpades);
-        System.out.println(isStraight(hand));
+
+
+        System.out.println(isStraightFlush(hand));
+
         HashSet<Card> deck = createDeck();
-        //System.out.println(deck.size());
-        //System.out.println(deck.contains(aceOfSpades));
         HashSet<HashSet<Card>> hands = createHands(deck);
         hands = hands.stream()
                 .filter(Main::isFlush)
                 .collect(Collectors.toCollection(HashSet::new));
+
         System.out.println(hands.size());
 
         long endTime = System.currentTimeMillis();
         System.out.println(String.format("Elapsed Time: %d", endTime - beginTime));
+    }
+
+    static boolean testIsFour() {
+        Card c1 = new Card(Card.Suit.SPADE, Card.Rank.TWO);
+        Card c2 = new Card(Card.Suit.DIAMOND, Card.Rank.TWO);
+        Card c3 = new Card(Card.Suit.HEART, Card.Rank.TWO);
+        Card c4 = new Card(Card.Suit.CLUB, Card.Rank.TWO);
+
+        HashSet<Card> hand = new HashSet<>();
+        hand.add(c1);
+        hand.add(c2);
+        hand.add(c3);
+        hand.add(c4);
+
+        return isFour(hand);
+    }
+
+    static boolean testIsStraight() {
+        Card c1 = new Card(Card.Suit.SPADE, Card.Rank.TWO);
+        Card c2 = new Card(Card.Suit.DIAMOND, Card.Rank.THREE);
+        Card c3 = new Card(Card.Suit.HEART, Card.Rank.FOUR);
+        Card c4 = new Card(Card.Suit.CLUB, Card.Rank.FIVE);
+
+        ArrayList<Card> hand = new ArrayList<>();
+        hand.add(c1);
+        hand.add(c2);
+        hand.add(c3);
+        hand.add(c4);
+
+        return isStraight(hand);
+    }
+
+    static boolean testIsFlush() {
+        Card c1 = new Card(Card.Suit.SPADE, Card.Rank.ACE);
+        Card c2 = new Card(Card.Suit.SPADE, Card.Rank.FOUR);
+        Card c3 = new Card(Card.Suit.SPADE, Card.Rank.SIX);
+        Card c4 = new Card(Card.Suit.SPADE, Card.Rank.NINE);
+
+        HashSet<Card> hand = new HashSet<>();
+        hand.add(c1);
+        hand.add(c2);
+        hand.add(c3);
+        hand.add(c4);
+
+        return isFlush(hand);
     }
 }
